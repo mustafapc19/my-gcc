@@ -45,7 +45,7 @@ public:
 
 
     void returnDFA(){
-        // root.childern
+        root.children.push_back(new Node(RETURN));
         return;
     }
 
