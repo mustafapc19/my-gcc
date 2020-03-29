@@ -8,5 +8,7 @@ enum TokenKind {
     SEMICOLON,
     ASSIGNMENT,
     DATATYPE_INT,
-    DATATYPE_VOID
+    DATATYPE_VOID,
+    RETURN,
+    MAIN
 };

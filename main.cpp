@@ -1,7 +1,7 @@
 #include<iostream>
 #include "enums.cpp"
 #include "symtab.cpp"
-#include "token.cpp"
+#include "tokenAndNode.cpp"
 #include "./AST.cpp"
 #include "./lexer.cpp"
 

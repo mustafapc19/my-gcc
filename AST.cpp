@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<iterator>
+#include <cstdlib>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class AST{
     vector<Token>::iterator iterator;
     int flag;
     SymTab* symtab;
+    Node root;
     
 public: 
     AST(vector<Token> ta,SymTab* st){
@@ -21,12 +23,34 @@ public:
         }
         iterator = tokenArray.begin();
         this->init();
-        if(this->flag){
-            cout<<"ALL SET"<<endl;
+        if(!this->flag){
+            iterator++;
+        } else {
+            exit(EXIT_FAILURE);
+        }
+
+        root.changeToken(Token(MAIN,0));
+        TokenKind currTokenKind = (TokenKind)((*iterator).kind);
+        switch(currTokenKind){
+            case RETURN :
+                this->returnDFA();
+                break;
+            default:
+                cerr<<"Expected return keyword"<<endl;
         }
 
     }
     
+
+
+
+    void returnDFA(){
+        // root.childern
+        return;
+    }
+
+
+
 
     void init(){
         TokenKind tokenKind = (TokenKind)((*iterator).kind);
@@ -70,45 +94,11 @@ public:
                     }
                     break;
                 default: 
-                    cout<<"Test";
                     break;
             }
         }
     }
 
-
-/*
-
-    void init(){
-        while((*iterator).kind != "BRACKET/CURLY/OPEN" && this->flag){
-            iterator++;
-            TokenKind tokenKind = (TokenKind)((*iterator).kind)
-            switch(tokenKind){
-                case "VARIABLE void":
-                case "VARIABLE int":
-                    if((*iterator).kind != "VARIABLE main"){
-                        this->flag = 0;
-                    }
-                    break;
-                case "VARIABLE main":
-                    if((*iterator).kind != "BRACKET/SMALL/OPEN"){
-                        this->flag = 0;
-                    }
-                    break;
-                case "BRACKET/SMALL/OPEN":
-                    if((*iterator).kind != "BRACKET/SMALL/CLOSE"){
-                        this->flag = 0;
-                    }
-                    break;
-                case "BRACKET/SMALL/CLOSE":
-                    if((*iterator).kind != "BRACKET/CURLY/OPEN"){
-                        this->flag = 0;
-                    }
-                    break;
-            }
-        }
-    }
-*/
 
     void print(){
         for(int i= 0;i < this->tokenArray.size();i++){

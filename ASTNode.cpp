@@ -14,4 +14,4 @@ public:
     void pushChildNode(Node n){
         this->childNodeArray.push_back(n);
     }
-}
+};

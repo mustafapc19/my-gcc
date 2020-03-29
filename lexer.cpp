@@ -33,13 +33,16 @@ public:
                 if(str == "int"){
                     tokenKind = DATATYPE_INT;
                     Token newToken(tokenKind);
-                    // cout<<"LExer::int "<<tokenKind<<endl;
                     this->tokenArray.push_back(newToken);
                 } 
                 else if(str == "void"){
                     tokenKind = DATATYPE_VOID;
                     Token newToken(tokenKind);
-                    // cout<<"LExer::void "<<tokenKind<<endl;
+                    this->tokenArray.push_back(newToken);
+                }
+                else if(str == "return"){
+                    tokenKind = RETURN;
+                    Token newToken(tokenKind);
                     this->tokenArray.push_back(newToken);
                 }
                 else {
