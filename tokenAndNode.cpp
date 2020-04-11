@@ -44,14 +44,26 @@ class Node{
 public: 
     Token token;
     vector<Node*> children;
+    Node* parent;
 
     Node(Token tok){
         this->token = tok;
+        this->parent = nullptr;
+    }
+
+    Node(Token tok,Node* par){
+        this->token = tok;
+        this->parent = par;
     }
 
     Node(){
         this->token.kind = -1;
         this->token.value = 0;
+        this->parent = nullptr;
+    }
+
+    bool operator==(Node nod){
+        return (this->token.value ==nod.token.value && this->token.kind == nod.token.kind && this->parent == nod.parent);
     }
 
     void changeToken(Token tok){
@@ -61,6 +73,23 @@ public:
 
     void attachChild(Node* n){
         this->children.push_back(n);
+    }
+
+    void attachParent(Node* n){
+        this->parent = n;
+    }
+
+    Node* getParent(){
+        return this->parent;
+    }
+
+    Node* findChildByType(int type){
+        for(vector<Node*>::iterator iter = children.begin(); iter != children.end(); iter++){
+            if((*(*iter)).token.kind == type){
+                return (*iter);
+            }
+        }
+        return nullptr;
     }
 
     /* Node findChildByToken(Token tok){

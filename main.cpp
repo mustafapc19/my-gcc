@@ -10,11 +10,9 @@ using namespace std;
 
 int main(){
     SymTab symtab;
-    // fstream sourceFile; 
     string sourceFileName; 
     
     sourceFileName = "file.txt"; 
-    // sourceFile.open(sourceFileName.c_str()); 
   
     Lexer lexer(sourceFileName,&symtab);
     lexer.tokenList();
