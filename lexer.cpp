@@ -45,6 +45,10 @@ public:
                     Token newToken(tokenKind);
                     this->tokenArray.push_back(newToken);
                 }
+                else if(str == "if"){
+                    tokenKind = IF;
+                    this->tokenArray.push_back(Token(tokenKind));
+                }
                 else {
                     int symtabIndex = (*symtab).push(str);
                     tokenKind = VARIABLE;
@@ -99,7 +103,7 @@ public:
                         break;
                     }
                     case '=' : {
-                        tokenKind = ASSIGNMENT;
+                        tokenKind = EQUAL;
                         Token newToken(tokenKind);
                         this->tokenArray.push_back(newToken);
                         break;

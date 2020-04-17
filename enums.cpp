@@ -6,9 +6,12 @@ enum TokenKind {
     BRACKET_CURLY_OPEN,
     BRACKET_CURLY_CLOSE,
     SEMICOLON,
-    ASSIGNMENT,
+    EQUAL,
     DATATYPE_INT,
     DATATYPE_VOID,
     RETURN,
-    MAIN
+    MAIN,
+    IF,
+    COND,
+    DOUBLE_EQUAL
 };

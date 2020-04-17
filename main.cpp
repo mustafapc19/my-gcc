@@ -17,8 +17,8 @@ int main(){
     Lexer lexer(sourceFileName,&symtab);
     lexer.tokenList();
     AST ast(lexer.giveAccess(),&symtab);
-    ast.print();
     // lexer.print();
+    ast.print();
     symtab.print();
 
     return 0; 
