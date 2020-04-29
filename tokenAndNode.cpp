@@ -35,10 +35,125 @@ public :
     }
 
     void print(){
-        cout<<"T-Kind-"<<(this->kind)<<"-Value-"<<(this->value)<<endl;
+        TokenKind tokenKind = (TokenKind)this->kind;
+        switch(tokenKind){
+            case VARIABLE : 
+                cout<<"VARIABLE "<<(symtab).indexToString(this->value)<<" / ";
+                break;
+            case NUMBER : 
+                cout<<"NUMBER "<<this->value<<" / ";
+                break;
+            case BRACKET_CURLY_OPEN : {
+                cout<<"{ "<<" / ";
+                break;
+            }
+            case BRACKET_CURLY_CLOSE : {
+                cout<<"} "<<" / ";
+                break;
+            }
+            case BRACKET_SMALL_OPEN : {
+                cout<<"( "<<" / ";
+                break;
+            }
+            case BRACKET_SMALL_CLOSE : {
+                cout<<") "<<" / ";
+                break;
+            }
+            case SEMICOLON : {
+                cout<<"; "<<" / ";
+                break;
+            }
+            case EQUAL : {
+                cout<<"= "<<" / ";
+                break;
+            }
+            case IDENTIFIER_INT : {
+                cout<<"IDENTIFIER_INT "<<" / ";
+                break;
+            }
+            case IDENTIFIER_VOID : {
+                cout<<"DATATYPE VOID "<<" / ";
+                break;
+            }
+            case IDENTIFIER_CHAR : {
+                cout<<"DATATYPE CHAR "<<" / ";
+                break;
+            }
+            case VARIABLE_TYPE_CHAR : {
+                cout<<"VARIABLE_TYPE_CHAR "<<(char)this->value<<" / ";
+                break;
+            }
+            case VARIABLE_TYPE_INT : {
+                cout<<"VARIABLE_TYPE_INT NAME "<<(symtab).indexToString(this->value)<<" VALUE "<<(symtab).indexToValue(this->value)<<" / ";
+                break;
+            }
+            case IDENTIFIER_STRING : {
+                cout<<"STRING "<<" / ";
+                break;
+            }
+            case LITERAL_STRING : {
+                cout<<"LITERAL_STRING "<<(symtab).indexToString(this->value)<<" / ";
+                break;
+            }
+            case PLUS : {
+                cout<<"+ "<<" / ";
+                break;
+            }
+            case MINUS : {
+                cout<<"- "<<" / ";
+                break;
+            }
+            case COMMA : {
+                cout<<", "<<" / ";
+                break;
+            }
+            case MAIN : 
+                cout<<"MAIN "<<" / ";
+                break;
+            case RETURN : 
+                cout<<"RETURN "<<" / ";
+                break;
+            case PRINTF : 
+                cout<<"PRINTF "<<" / ";
+                break;
+            case SCANF :
+                cout<<"SCANF "<<" / ";
+                break;
+            case IF : 
+                cout<<"IF "<<" / ";
+                break;
+            case DOUBLE_EQUAL : 
+                cout<<"== "<<" / ";
+                break;
+            case COND : 
+                cout<<"COND "<<" / ";
+                break;
+            case NONE : 
+                cout<<"NONE "<<" / ";
+                break;
+            default : 
+                cout<<"Token::Default "<<this->value<<" "<<this->kind<<" / ";
+        }
+        // cout<<"T-Kind-"<<(this->kind)<<"-Value-"<<(this->value)<<endl;
     }
 };
-
+// VARIABLE,
+//     NUMBER,
+//     BRACKET_SMALL_OPEN,
+//     BRACKET_SMALL_CLOSE,
+//     BRACKET_CURLY_OPEN,
+//     BRACKET_CURLY_CLOSE,
+//     SEMICOLON,
+//     EQUAL,
+//     IDENTIFIER_INT,
+//     IDENTIFIER_VOID,
+//     RETURN,
+//     MAIN,
+//     IF,
+//     COND,
+//     DOUBLE_EQUAL,
+//     PLUS,
+//     MINUS
 
 class Node{
 public: 

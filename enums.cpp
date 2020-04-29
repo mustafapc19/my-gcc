@@ -1,4 +1,6 @@
 enum TokenKind {
+    ERROR,
+    NONE,
     VARIABLE,
     NUMBER,
     BRACKET_SMALL_OPEN,
@@ -7,11 +9,23 @@ enum TokenKind {
     BRACKET_CURLY_CLOSE,
     SEMICOLON,
     EQUAL,
-    DATATYPE_INT,
-    DATATYPE_VOID,
+    COMMA,
+    IDENTIFIER_INT,
+    IDENTIFIER_VOID,
+    IDENTIFIER_CHAR,
+    IDENTIFIER_STRING,
+    VARIABLE_TYPE_CHAR,
+    VARIABLE_TYPE_INT,
+    LITERAL_STRING,
     RETURN,
     MAIN,
     IF,
     COND,
-    DOUBLE_EQUAL
+    DOUBLE_EQUAL,
+    PLUS,
+    MINUS,
+    PRINTF,
+    SCANF,
+    // ADD,
+    // SUBSTRACT
 };
