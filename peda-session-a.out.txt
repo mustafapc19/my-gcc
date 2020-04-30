@@ -1,3 +1,2 @@
-break main
-break main
+break _start
 

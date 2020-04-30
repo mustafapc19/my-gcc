@@ -1,5 +1,7 @@
 int main(){
     int b;
-    b = 6 + 9;
+    b = 3;
+
+    printf("%d %d \n%d %d\n",b,1,2,3);
     return b;
 }

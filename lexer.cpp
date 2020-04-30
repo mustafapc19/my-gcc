@@ -83,7 +83,7 @@ public:
                 }
                 else if(str[0] == (char)34){
                     if(str[str.length()-1] == (char)34){
-                        cerr<<"LEXER::tokenlist All good "<<str<< endl;
+                        // cerr<<"LEXER::tokenlist All good "<<str<< endl;
                     } else {
                         cerr<<"LEXER::tokenlist All Not good"<<str<< endl;
                     }

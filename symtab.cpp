@@ -48,6 +48,9 @@ public:
         tokenKind.push_back(tk);
         return str.size()-1;
     }
+    int size(){
+        return lvalueFlag.size();
+    }
 
     string indexToString(int i){
         if(0 <= i && i < str.size()){
