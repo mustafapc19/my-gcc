@@ -40,7 +40,7 @@ public:
         do{
             stackSizeMax++;
         }while((int)(stackSize-1)/((16*stackSizeMax)) != 0);
-        stackSizeMax--;
+        // stackSizeMax--;
         stackSizeMax *= 16;
         string str;
         std::stringstream sstream;

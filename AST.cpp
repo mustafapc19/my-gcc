@@ -57,6 +57,9 @@ public:
             case IF : 
                 tempNodePtr->attachChild(ifDFA(tempNodePtr));
                 break;
+            case WHILE:
+                tempNodePtr->attachChild(whileDFA(tempNodePtr));
+                break;
             case IDENTIFIER_CHAR : 
                 // tempNodePtr->attachChild(dataCharDFA(tempNodePtr));
                 break;
@@ -79,6 +82,9 @@ public:
             case PRINTF :
                 tempNodePtr->attachChild(printfDFA(tempNodePtr));
                 break;
+            case SCANF :
+                tempNodePtr->attachChild(scanfDFA(tempNodePtr));
+                break;
             default: 
                 cout<<"stmtDFA:: ";
                 iterator->print();
@@ -96,6 +102,45 @@ public:
         iterator++;
         return exprDFA(tempNodePtr);
     }
+
+    Node* scanfDFA(Node* parentNode){
+        Node* tempNodePtr;
+        tempNodePtr = new Node(Token(SCANF),parentNode);
+        iterator++;
+        currTokenKind = (TokenKind)((*iterator).kind);
+        if(currTokenKind != BRACKET_SMALL_OPEN){ cerr<<"AST::printfDFA expected ("<<endl;}
+        iterator++;
+        currTokenKind = (TokenKind)((*iterator).kind);
+        Token t = *iterator;
+        while(currTokenKind != BRACKET_SMALL_CLOSE && currTokenKind != SEMICOLON){
+            // cout<<"AST::printDFA ";
+            t = *iterator;
+            if(currTokenKind == COMMA) { 
+                iterator++;
+                currTokenKind = (TokenKind)((*iterator).kind);
+                continue;
+            }
+            if(currTokenKind == AMPERSAND){
+                iterator++;
+                t = *iterator;
+                if(t.kind != VARIABLE){cerr<<"AST::scandDFA expected var type after AMPERSAND"<<endl;t.print();}
+                
+                if(symtab->getTokenKind(t.value) == VARIABLE_TYPE_INT){t.kind = VARIABLE_TYPE_INT_AMPERSAND;}
+                else{cerr<<"AST::scanfDFA only supports int :("<<endl;}
+                tempNodePtr->attachChild(new Node(t,tempNodePtr));
+                iterator++;
+                currTokenKind = (TokenKind)(iterator->kind);
+                continue;
+            }
+            tempNodePtr->attachChild(new Node(t,tempNodePtr));
+            iterator++;
+            currTokenKind = (TokenKind)(iterator->kind);
+
+        }
+        iterator++;
+        return tempNodePtr;
+    }
+
 
     Node* printfDFA(Node* parentNode){
         Node* tempNodePtr;
@@ -216,6 +261,36 @@ public:
         return parentNode;
     }*/
 
+    Node* whileDFA(Node* parentNodePtr){
+        Node* tempNodePtr = new Node(Token(WHILE),parentNodePtr);
+
+        iterator++;
+        currTokenKind = (TokenKind)((*iterator).kind);
+        if(currTokenKind != BRACKET_SMALL_OPEN){ cerr<<"AST::whileDFA Expected '(' after while"<<endl; }
+
+        tempNodePtr->attachChild(condDFA(tempNodePtr));
+        
+        iterator++;
+        currTokenKind = (TokenKind)((*iterator).kind);
+        if(currTokenKind != BRACKET_SMALL_CLOSE){ cerr<<"AST::whileDFA Expected ')' (while)"<<endl; }
+
+        iterator++;
+        currTokenKind = (TokenKind)((*iterator).kind);
+        if(currTokenKind != BRACKET_CURLY_OPEN){ cerr<<"AST::whileDFA Expected '{' (while)"<<endl; }
+
+        iterator++;
+        currTokenKind = (TokenKind)((*iterator).kind);
+        while(currTokenKind != BRACKET_CURLY_CLOSE){
+            iterator--;
+            // tempNodePtr->attachChild(stmtDFA(tempNodePtr));
+            tempNodePtr = stmtDFA(tempNodePtr);
+            iterator++;
+            currTokenKind = (TokenKind)((*iterator).kind);
+        }
+        // cout<<"IF::iter.kind:"<<iterator->kind<<" iter.value:"<<iterator->value<<endl;
+
+        return tempNodePtr;
+    }
 
     Node* ifDFA(Node* parentNodePtr){
         Node* tempNodePtr = new Node(Token(IF),parentNodePtr);
@@ -250,6 +325,7 @@ public:
 
     Node* condDFA(Node* parentNodePtr){
         Node* tempNodePtr = new Node(Token(COND),parentNodePtr);
+        Node* tempNodePtrChild;
 
         iterator++;
         currTokenKind = (TokenKind)((*iterator).kind);
@@ -272,7 +348,22 @@ public:
                 currTokenKind = (TokenKind)((*iterator).kind);
                 switch(currTokenKind){
                     case EQUAL: 
-                        tempNodePtr->attachChild(new Node(Token(DOUBLE_EQUAL),tempNodePtr));
+                        tempNodePtrChild = new Node(Token(DOUBLE_EQUAL),tempNodePtr);
+                        tempNodePtr->attachChild(tempNodePtrChild);
+                        break;
+                    default:
+                        cerr<<"AST::condDFA Conditional operator incorrect(2)-";
+                        iterator->print();
+                        cerr<<endl;
+                }
+                break;
+            case EXCLAIMATION:
+                iterator++;
+                currTokenKind = (TokenKind)((*iterator).kind);
+                switch(currTokenKind){
+                    case EQUAL: 
+                        tempNodePtrChild = new Node(Token(NOT_EQUAL),tempNodePtr);
+                        tempNodePtr->attachChild(tempNodePtrChild);
                         break;
                     default:
                         cerr<<"AST::condDFA Conditional operator incorrect(2)"<<endl;

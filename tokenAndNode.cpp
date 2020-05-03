@@ -38,103 +38,120 @@ public :
         TokenKind tokenKind = (TokenKind)this->kind;
         switch(tokenKind){
             case VARIABLE : 
-                cout<<"VARIABLE "<<(symtab).indexToString(this->value)<<" / ";
+                cerr<<"VARIABLE "<<(symtab).indexToString(this->value)<<" / ";
                 break;
             case NUMBER : 
-                cout<<"NUMBER "<<this->value<<" / ";
+                cerr<<"NUMBER "<<this->value<<" / ";
                 break;
             case BRACKET_CURLY_OPEN : {
-                cout<<"{ "<<" / ";
+                cerr<<"{ "<<" / ";
                 break;
             }
             case BRACKET_CURLY_CLOSE : {
-                cout<<"} "<<" / ";
+                cerr<<"} "<<" / ";
                 break;
             }
             case BRACKET_SMALL_OPEN : {
-                cout<<"( "<<" / ";
+                cerr<<"( "<<" / ";
                 break;
             }
             case BRACKET_SMALL_CLOSE : {
-                cout<<") "<<" / ";
+                cerr<<") "<<" / ";
                 break;
             }
             case SEMICOLON : {
-                cout<<"; "<<" / ";
+                cerr<<"; "<<" / ";
                 break;
             }
             case EQUAL : {
-                cout<<"= "<<" / ";
+                cerr<<"= "<<" / ";
+                break;
+            }
+            case EXCLAIMATION : {
+                cerr<<"! "<<" / ";
                 break;
             }
             case IDENTIFIER_INT : {
-                cout<<"IDENTIFIER_INT "<<" / ";
+                cerr<<"IDENTIFIER_INT "<<" / ";
                 break;
             }
             case IDENTIFIER_VOID : {
-                cout<<"DATATYPE VOID "<<" / ";
+                cerr<<"DATATYPE VOID "<<" / ";
                 break;
             }
             case IDENTIFIER_CHAR : {
-                cout<<"DATATYPE CHAR "<<" / ";
+                cerr<<"DATATYPE CHAR "<<" / ";
                 break;
             }
             case VARIABLE_TYPE_CHAR : {
-                cout<<"VARIABLE_TYPE_CHAR "<<(char)this->value<<" / ";
+                cerr<<"VARIABLE_TYPE_CHAR "<<(char)this->value<<" / ";
                 break;
             }
             case VARIABLE_TYPE_INT : {
-                cout<<"VARIABLE_TYPE_INT NAME "<<(symtab).indexToString(this->value)<<" VALUE "<<(symtab).indexToValue(this->value)<<" / ";
+                cerr<<"VARIABLE_TYPE_INT NAME "<<(symtab).indexToString(this->value)<<" VALUE "<<(symtab).indexToValue(this->value)<<" / ";
+                break;
+            }
+            case VARIABLE_TYPE_INT_AMPERSAND : {
+                cerr<<"VARIABLE_TYPE_INT_AMPERSAND NAME "<<(symtab).indexToString(this->value)<<" VALUE "<<(symtab).indexToValue(this->value)<<" / ";
                 break;
             }
             case IDENTIFIER_STRING : {
-                cout<<"STRING "<<" / ";
+                cerr<<"STRING "<<" / ";
                 break;
             }
             case LITERAL_STRING : {
-                cout<<"LITERAL_STRING "<<(symtab).indexToString(this->value)<<" / ";
+                cerr<<"LITERAL_STRING "<<(symtab).indexToString(this->value)<<" / ";
                 break;
             }
             case PLUS : {
-                cout<<"+ "<<" / ";
+                cerr<<"+ "<<" / ";
                 break;
             }
             case MINUS : {
-                cout<<"- "<<" / ";
+                cerr<<"- "<<" / ";
                 break;
             }
             case COMMA : {
-                cout<<", "<<" / ";
+                cerr<<", "<<" / ";
                 break;
             }
             case MAIN : 
-                cout<<"MAIN "<<" / ";
+                cerr<<"MAIN "<<" / ";
                 break;
             case RETURN : 
-                cout<<"RETURN "<<" / ";
+                cerr<<"RETURN "<<" / ";
                 break;
             case PRINTF : 
-                cout<<"PRINTF "<<" / ";
+                cerr<<"PRINTF "<<" / ";
                 break;
             case SCANF :
-                cout<<"SCANF "<<" / ";
+                cerr<<"SCANF "<<" / ";
                 break;
             case IF : 
-                cout<<"IF "<<" / ";
+                cerr<<"IF "<<" / ";
+                break;
+            case WHILE :
+                cerr<<"WHILE "<<" / ";
                 break;
             case DOUBLE_EQUAL : 
-                cout<<"== "<<" / ";
+                cerr<<"== "<<" / ";
                 break;
+            case NOT_EQUAL : 
+                cerr<<"!= "<<" / "; 
+                break ;
             case COND : 
-                cout<<"COND "<<" / ";
+                cerr<<"COND "<<" / ";
                 break;
             case NONE : 
-                cout<<"NONE "<<" / ";
+                cerr<<"NONE "<<" / ";
+                break;
+            case AMPERSAND:
+                cerr<<"& "<<" / ";
                 break;
             default : 
-                cout<<"Token::Default "<<this->value<<" "<<this->kind<<" / ";
+                cerr<<"Token::Default "<<this->value<<" "<<this->kind<<" / ";
         }
-        // cout<<"T-Kind-"<<(this->kind)<<"-Value-"<<(this->value)<<endl;
+        // cerr<<"T-Kind-"<<(this->kind)<<"-Value-"<<(this->value)<<endl;
     }
 };
 // VARIABLE,

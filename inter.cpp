@@ -15,6 +15,10 @@ class Inter{
     LitTab litTab;
     string litIdent;
     string varIdent;
+    string ifIdent;
+    string loopIdent;
+    int ifCount;
+    int loopCount;
 
 public:
 
@@ -22,8 +26,12 @@ public:
         root = nl;
         symtab = st;
         litCount = 0;
+        ifCount = 0;
+        loopCount = 0;
         litIdent = "__lit_";
         varIdent = "__var_";
+        ifIdent = "__if_";
+        loopIdent = "__loop_";
         init(root);
     }
 
@@ -59,6 +67,18 @@ public:
                 stmtTemp = printfDFA(currNodePtr);
                 localInter.insert(localInter.end(),stmtTemp.begin(),stmtTemp.end());
                 break;
+            case SCANF:
+                stmtTemp = scanfDFA(currNodePtr);
+                localInter.insert(localInter.end(),stmtTemp.begin(),stmtTemp.end());
+                break;
+            case IF: 
+                stmtTemp = ifDFA(currNodePtr);
+                localInter.insert(localInter.end(),stmtTemp.begin(),stmtTemp.end());
+                break;
+            case WHILE: 
+                stmtTemp = whileDFA(currNodePtr);
+                localInter.insert(localInter.end(),stmtTemp.begin(),stmtTemp.end());
+                break;
             case NONE:
                 break;
             default : 
@@ -67,6 +87,210 @@ public:
                 break;
         }
         return localInter;
+    }
+
+    vector<string> whileDFA(Node* currNodePtr){
+        vector<string> vec;
+        vector<string> tmp;
+        int localLoopCount = loopCount;
+        loopCount++;
+
+        vec.push_back(loopIdent+to_string(localLoopCount)+"start"+":"+" nop");
+        tmp = whileCondDFA(currNodePtr->children[0],localLoopCount,loopIdent);
+        vec.insert(vec.end(),tmp.begin(),tmp.end());
+        for(int i = 1;i < currNodePtr->children.size(); i++){
+                // cerr<<"INTER::ifDFA ";
+                // currNodePtr->children[i]->token.print();
+                vector<string> stmtTemp = stmtDFA(currNodePtr->children[i]);
+                vec.insert(vec.end(),stmtTemp.begin(),stmtTemp.end());
+        }
+        vec.push_back("jmp "+loopIdent+to_string(localLoopCount)+"start");
+        vec.push_back(loopIdent+to_string(localLoopCount)+"end"+":"+" nop");
+        return vec;
+    }
+
+    vector<string> whileCondDFA(Node* currNodePtr,int localLabelCount,string labelIdent){
+        vector<string> vec;
+        TokenKind currTokenKind = (TokenKind)currNodePtr->children[1]->token.kind;
+        Node* localNodePtr = currNodePtr;
+        switch(currTokenKind){
+            case DOUBLE_EQUAL:
+                if(localNodePtr->children[0]->token.kind == NUMBER){
+                    vec.push_back("mov edx,"+to_string(localNodePtr->children[0]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[0]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov edx,"+varIdent+symtab->indexToString(localNodePtr->children[0]->token.value));
+                } 
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[0]->token.print();
+                }
+
+                if(localNodePtr->children[2]->token.kind == NUMBER){
+                    vec.push_back("mov ecx,"+to_string(localNodePtr->children[2]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[2]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov ecx,"+varIdent+symtab->indexToString(localNodePtr->children[2]->token.value));
+                }
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[2]->token.print();
+                }
+
+                vec.push_back("cmp edx,ecx");
+                vec.push_back("jne "+labelIdent+to_string(localLabelCount)+"end");
+                break;
+            case NOT_EQUAL:
+                if(localNodePtr->children[0]->token.kind == NUMBER){
+                    vec.push_back("mov edx,"+to_string(localNodePtr->children[0]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[0]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov edx,"+varIdent+symtab->indexToString(localNodePtr->children[0]->token.value));
+                }
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[0]->token.print();
+                }
+
+                if(localNodePtr->children[2]->token.kind == NUMBER){
+                    vec.push_back("mov ecx,"+to_string(localNodePtr->children[0]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[2]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov ecx,"+varIdent+symtab->indexToString(localNodePtr->children[0]->token.value));
+                }
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[2]->token.print();
+                }
+
+                vec.push_back("cmp edx,ecx");
+                vec.push_back("je "+labelIdent+to_string(localLabelCount)+"end");
+                break;
+            default : 
+                cerr<<"INTER::condDFA Incorrect operator";
+                currNodePtr->children[0]->token.print();
+        }
+        return vec;
+
+    }
+
+    vector<string> ifDFA(Node* currNodePtr){
+        vector<string> vec;
+        vector<string> tmp;
+        int localIfCount = ifCount;
+        ifCount++;
+
+        tmp = ifCondDFA(currNodePtr->children[0],localIfCount,ifIdent);
+        vec.insert(vec.end(),tmp.begin(),tmp.end());
+        for(int i = 1;i < currNodePtr->children.size(); i++){
+                // cerr<<"INTER::ifDFA ";
+                // currNodePtr->children[i]->token.print();
+                vector<string> stmtTemp = stmtDFA(currNodePtr->children[i]);
+                vec.insert(vec.end(),stmtTemp.begin(),stmtTemp.end());
+        }
+        vec.push_back(ifIdent+to_string(localIfCount)+":"+" nop");
+        return vec;
+    }
+
+    vector<string> ifCondDFA(Node* currNodePtr,int localLabelCount,string labelIdent){
+        vector<string> vec;
+        TokenKind currTokenKind = (TokenKind)currNodePtr->children[1]->token.kind;
+        Node* localNodePtr = currNodePtr;
+        switch(currTokenKind){
+            case DOUBLE_EQUAL:
+                if(localNodePtr->children[0]->token.kind == NUMBER){
+                    vec.push_back("mov edx,"+to_string(localNodePtr->children[0]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[0]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov edx,"+varIdent+symtab->indexToString(localNodePtr->children[0]->token.value));
+                } 
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[0]->token.print();
+                }
+
+                if(localNodePtr->children[2]->token.kind == NUMBER){
+                    vec.push_back("mov ecx,"+to_string(localNodePtr->children[2]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[2]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov ecx,"+varIdent+symtab->indexToString(localNodePtr->children[2]->token.value));
+                }
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[2]->token.print();
+                }
+
+                vec.push_back("cmp edx,ecx");
+                vec.push_back("jne "+labelIdent+to_string(localLabelCount));
+                break;
+            case NOT_EQUAL:
+                if(localNodePtr->children[0]->token.kind == NUMBER){
+                    vec.push_back("mov edx,"+to_string(localNodePtr->children[0]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[0]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov edx,"+varIdent+symtab->indexToString(localNodePtr->children[0]->token.value));
+                }
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[0]->token.print();
+                }
+
+                if(localNodePtr->children[2]->token.kind == NUMBER){
+                    vec.push_back("mov ecx,"+to_string(localNodePtr->children[0]->token.value));
+                } 
+                else if(symtab->getTokenKind(localNodePtr->children[2]->token.value) == VARIABLE_TYPE_INT){
+                    vec.push_back("mov ecx,"+varIdent+symtab->indexToString(localNodePtr->children[0]->token.value));
+                }
+                else{
+                    cerr<<"INTER::condDFA unexpected token-";
+                    localNodePtr->children[2]->token.print();
+                }
+
+                vec.push_back("cmp edx,ecx");
+                vec.push_back("je "+labelIdent+to_string(localLabelCount));
+                break;
+            default : 
+                cerr<<"INTER::condDFA Incorrect operator";
+                currNodePtr->children[0]->token.print();
+        }
+        return vec;
+
+    }
+
+    vector<string> scanfDFA(Node* currNodePtr){
+        vector<string> vec;
+        TokenKind currTokenKind = (TokenKind)currNodePtr->children[0]->token.kind;
+        if(currTokenKind != LITERAL_STRING){ cerr<<"INTER::scanfDFA expected literal string in 1st arg"<<endl;}
+        string name = litTab.push(litIdent,symtab->indexToString(currNodePtr->children[0]->token.value));
+        string str;
+        str = "mov rdi,"+name;
+        vec.push_back(str);
+
+        vector<string> regs = { "rsi","rdx","rcx","r8","r9"};
+        for(int i=1;i<currNodePtr->children.size();i++){
+            TokenKind currTokenKind = (TokenKind)currNodePtr->children[i]->token.kind;
+            currTokenKind = currTokenKind == NUMBER ? NUMBER 
+                                                    : symtab->getTokenKind(currNodePtr->children[i]->token.value);
+            switch(currTokenKind){
+                case NUMBER:
+                    if(i>regs.size()){ cerr<<"INTER::printfDFA regs count less"<<endl;}
+                    str = "lea "+regs[i-1]+","+to_string(currNodePtr->children[i]->token.value);
+                    vec.push_back(str);
+                    break;
+                case VARIABLE_TYPE_INT:
+                    if(i>regs.size()){ cerr<<"INTER::printfDFA regs count less"<<endl;}
+                    str = "lea "+regs[i-1]+","+varIdent+symtab->indexToString(currNodePtr->children[i]->token.value);
+                    vec.push_back(str);
+                    break;
+                default:
+                    cerr<<"INTER::scanfDFA wrong argument type "<<endl;
+                    currNodePtr->children[i]->token.print();
+            }
+        }
+        vec.push_back("mov rax,0");
+        vec.push_back("call scanf");
+
+        return vec;
     }
 
     vector<string> printfDFA(Node* currNodePtr){

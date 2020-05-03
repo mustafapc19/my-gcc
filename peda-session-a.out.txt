@@ -1,2 +1,4 @@
-break _start
+break printf
+break scanf
+
 

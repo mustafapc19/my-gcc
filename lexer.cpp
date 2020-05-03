@@ -69,6 +69,10 @@ public:
                     tokenKind = IF;
                     this->tokenArray.push_back(Token(tokenKind));
                 }
+                else if(str == "while"){
+                    tokenKind = WHILE;
+                    this->tokenArray.push_back(Token(tokenKind));
+                }
                 else if(str == "printf"){
                     tokenKind = PRINTF;
                     this->tokenArray.push_back(Token(tokenKind)); 
@@ -169,6 +173,20 @@ public:
                     case ',': {
                         tokenKind = COMMA;
                         this->tokenArray.push_back(Token(tokenKind));
+                        break;
+                    }
+                    case '&': {
+                        tokenKind = AMPERSAND;
+                        this->tokenArray.push_back(Token(tokenKind));
+                        break;
+                    }
+                    case '!': {
+                        tokenKind = EXCLAIMATION;
+                        this->tokenArray.push_back(Token(tokenKind));
+                        break;
+                    }
+                    default: {
+                        // cerr<<"LEXER::tokenList unexpected charecter-"<<c<<endl;
                     }
                 }
                 sourceFile.get(c);

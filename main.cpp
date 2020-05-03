@@ -22,9 +22,9 @@ int main(){
   
     Lexer lexer(sourceFileName,&symtab);
     lexer.tokenList();
-    // lexer.print();
+    lexer.print();
     AST ast(lexer.giveAccess(),&symtab);
-    // ast.print();
+    ast.print();
     // cerr<<endl;
     Inter inter(ast.giveAccess(),&symtab);
     // inter.print();
