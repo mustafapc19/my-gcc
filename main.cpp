@@ -14,17 +14,21 @@ SymTab symtab;
 using namespace std;
 
 
-int main(){
+int main(int argc, char** argv){
     string sourceFileName; 
     vector<string> finalCode;
+    sourceFileName = ""; 
     
-    sourceFileName = "file.txt"; 
+    // for (int i = 0; i < argc; i++){
+    sourceFileName = argv[1];
+    // } 
+    // cout<<sourceFileName;
   
     Lexer lexer(sourceFileName,&symtab);
     lexer.tokenList();
-    lexer.print();
+    // lexer.print();
     AST ast(lexer.giveAccess(),&symtab);
-    ast.print();
+    // ast.print();
     // cerr<<endl;
     Inter inter(ast.giveAccess(),&symtab);
     // inter.print();

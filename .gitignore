@@ -2,6 +2,7 @@
 a.out
 asm.asm
 file.txt
+test.cpp
 my-gcc
 my-prog.o
 peda-session-a.out.txt

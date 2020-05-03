@@ -208,6 +208,7 @@ public:
     }
 
     vector<Token>& giveAccess(){
+        sourceFile.close();
         return this->tokenArray;
     }
 };
