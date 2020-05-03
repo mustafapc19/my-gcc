@@ -11,11 +11,11 @@ Installation:
     Building:
         g++ -g main.cpp -o my-gcc
 
-Running:
-    ./my-gcc [filename]
+    Running:
+        ./my-gcc [filename]
 
-Required output code will be a.out.
-Assembly code will be in asm.asm.
+        Required output code will be a.out.
+        Assembly code will be in asm.asm.
 
 Please be careful while using it. Do not use invalid C code.
 Might go into infinite-loop. Idk
