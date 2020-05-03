@@ -3,6 +3,7 @@
 This is just a toy project
 
 Installation: 
+    
     Dependencies:
         nasm: 
             In ubuntu: sudo apt install nasm
@@ -20,6 +21,7 @@ Please be careful while using it. Do not use invalid C code.
 Might go into infinite-loop. Idk
 
 Features supported:
+    
     Comments not supported
 
     "int"'s are supported. But only one at a time.
