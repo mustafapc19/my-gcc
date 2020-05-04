@@ -20,7 +20,7 @@ Installation:
 Please be careful while using it. Do not use invalid C code.
 Might go into infinite-loop. Idk
 
-There is a test code in example.cpp
+There is a test code in example.c
 
 Features supported:
     
