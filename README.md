@@ -48,6 +48,8 @@ Features supported:
         if(a != b)
         if(a == b)  //supported provided a and b are supported datatypes
 
+        if((a+1)==b) //unsupported
+
         else not supported.
 
     while supprted:
