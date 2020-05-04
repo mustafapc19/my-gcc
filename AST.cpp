@@ -464,6 +464,9 @@ public:
 
 
     Node* giveAccess(){
+        if(root->children[root->children.size()-1]->token.kind!=RETURN){
+            root->attachChild(new Node(Token(RETURN),root));
+        }
         return root;
     }
 };

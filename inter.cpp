@@ -406,21 +406,26 @@ public:
         vector<string> vec;
         string str;
         int val;
-        currTokenKind = (TokenKind)currNodePtr->children[0]->token.kind;
-        switch(currTokenKind){
-            case NUMBER :
-                val = currNodePtr->children[0]->token.value;
-                str = "mov rax,"+to_string(val);
-                vec.push_back(str);
-                break;
-            case VARIABLE_TYPE_INT :
-                str = "mov rax, __var_"+symtab->indexToString(currNodePtr->children[0]->token.value);
-                vec.push_back(str);
-                break;
-            default:
-                cerr<<"Inter::retDFA expected NUMBER(token)"<<endl;
-                currNodePtr->children[0]->token.print();
+        if(currNodePtr->children.size()){
+          currTokenKind = (TokenKind)currNodePtr->children[0]->token.kind;
+            switch(currTokenKind){
+                case NUMBER :
+                    val = currNodePtr->children[0]->token.value;
+                    str = "mov rax,"+to_string(val);
+                    vec.push_back(str);
+                    break;
+                case VARIABLE_TYPE_INT :
+                    str = "mov rax, __var_"+symtab->indexToString(currNodePtr->children[0]->token.value);
+                    vec.push_back(str);
+                    break;
+                default:
+                    cerr<<"Inter::retDFA expected NUMBER(token)"<<endl;
+                    currNodePtr->children[0]->token.print();
+            }  
+        } else {
+            
         }
+        
         str = "leave";
         vec.push_back(str);
         str = "ret";

@@ -20,9 +20,12 @@ Installation:
 Please be careful while using it. Do not use invalid C code.
 Might go into infinite-loop. Idk
 
+There is a test code in example.cpp
+
 Features supported:
     
     Comments not supported
+    #include not supported
 
     "int"'s are supported. But only one at a time.
         int a;      //right
