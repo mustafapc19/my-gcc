@@ -1,6 +1,9 @@
 #include<iostream>
 #include<vector>
 #include<iterator>
+#include"token.h"
+#include"node.h"
+#include"litTab.h"
 
 using namespace std;
 
@@ -83,7 +86,7 @@ public:
                 break;
             default : 
                 cerr<<"Inter::stmtDFA default case Token ";
-                currNodePtr->token.print();
+                currNodePtr->token.print(symtab);
                 break;
         }
         return localInter;
@@ -100,7 +103,7 @@ public:
         vec.insert(vec.end(),tmp.begin(),tmp.end());
         for(int i = 1;i < currNodePtr->children.size(); i++){
                 // cerr<<"INTER::ifDFA ";
-                // currNodePtr->children[i]->token.print();
+                // currNodePtr->children[i]->token.print(symtab);
                 vector<string> stmtTemp = stmtDFA(currNodePtr->children[i]);
                 vec.insert(vec.end(),stmtTemp.begin(),stmtTemp.end());
         }
@@ -123,7 +126,7 @@ public:
                 } 
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[0]->token.print();
+                    localNodePtr->children[0]->token.print(symtab);
                 }
 
                 if(localNodePtr->children[2]->token.kind == NUMBER){
@@ -134,7 +137,7 @@ public:
                 }
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[2]->token.print();
+                    localNodePtr->children[2]->token.print(symtab);
                 }
 
                 vec.push_back("cmp edx,ecx");
@@ -149,7 +152,7 @@ public:
                 }
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[0]->token.print();
+                    localNodePtr->children[0]->token.print(symtab);
                 }
 
                 if(localNodePtr->children[2]->token.kind == NUMBER){
@@ -160,7 +163,7 @@ public:
                 }
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[2]->token.print();
+                    localNodePtr->children[2]->token.print(symtab);
                 }
 
                 vec.push_back("cmp edx,ecx");
@@ -168,7 +171,7 @@ public:
                 break;
             default : 
                 cerr<<"INTER::condDFA Incorrect operator";
-                currNodePtr->children[0]->token.print();
+                currNodePtr->children[0]->token.print(symtab);
         }
         return vec;
 
@@ -184,7 +187,7 @@ public:
         vec.insert(vec.end(),tmp.begin(),tmp.end());
         for(int i = 1;i < currNodePtr->children.size(); i++){
                 // cerr<<"INTER::ifDFA ";
-                // currNodePtr->children[i]->token.print();
+                // currNodePtr->children[i]->token.print(symtab);
                 vector<string> stmtTemp = stmtDFA(currNodePtr->children[i]);
                 vec.insert(vec.end(),stmtTemp.begin(),stmtTemp.end());
         }
@@ -206,7 +209,7 @@ public:
                 } 
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[0]->token.print();
+                    localNodePtr->children[0]->token.print(symtab);
                 }
 
                 if(localNodePtr->children[2]->token.kind == NUMBER){
@@ -217,7 +220,7 @@ public:
                 }
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[2]->token.print();
+                    localNodePtr->children[2]->token.print(symtab);
                 }
 
                 vec.push_back("cmp edx,ecx");
@@ -232,7 +235,7 @@ public:
                 }
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[0]->token.print();
+                    localNodePtr->children[0]->token.print(symtab);
                 }
 
                 if(localNodePtr->children[2]->token.kind == NUMBER){
@@ -243,7 +246,7 @@ public:
                 }
                 else{
                     cerr<<"INTER::condDFA unexpected token-";
-                    localNodePtr->children[2]->token.print();
+                    localNodePtr->children[2]->token.print(symtab);
                 }
 
                 vec.push_back("cmp edx,ecx");
@@ -251,7 +254,7 @@ public:
                 break;
             default : 
                 cerr<<"INTER::condDFA Incorrect operator";
-                currNodePtr->children[0]->token.print();
+                currNodePtr->children[0]->token.print(symtab);
         }
         return vec;
 
@@ -284,7 +287,7 @@ public:
                     break;
                 default:
                     cerr<<"INTER::scanfDFA wrong argument type "<<endl;
-                    currNodePtr->children[i]->token.print();
+                    currNodePtr->children[i]->token.print(symtab);
             }
         }
         vec.push_back("mov rax,0");
@@ -320,7 +323,7 @@ public:
                     break;
                 default:
                     cerr<<"INTER::printfDFA wrong argument type "<<endl;
-                    currNodePtr->children[i]->token.print();
+                    currNodePtr->children[i]->token.print(symtab);
             }
         }
         vec.push_back("mov rax,0");
@@ -420,7 +423,7 @@ public:
                     break;
                 default:
                     cerr<<"Inter::retDFA expected NUMBER(token)"<<endl;
-                    currNodePtr->children[0]->token.print();
+                    currNodePtr->children[0]->token.print(symtab);
             }  
         } else {
             

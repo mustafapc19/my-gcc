@@ -3,7 +3,9 @@
 #include<iterator>
 #include<sstream>
 #include <string> 
-
+#include "token.h"
+#include "varTab.h"
+#include "litTab.h"
 using namespace std;
 
 class Final{

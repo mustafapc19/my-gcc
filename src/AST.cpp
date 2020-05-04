@@ -3,6 +3,9 @@
 #include<iterator>
 #include <cstdlib>
 #include<queue>
+#include"token.h"
+#include"node.h"
+// #include"token.h"
 
 using namespace std;
 
@@ -87,7 +90,7 @@ public:
                 break;
             default: 
                 cout<<"stmtDFA:: ";
-                iterator->print();
+                iterator->print(symtab);
         }
 
         return tempNodePtr;
@@ -123,7 +126,7 @@ public:
             if(currTokenKind == AMPERSAND){
                 iterator++;
                 t = *iterator;
-                if(t.kind != VARIABLE){cerr<<"AST::scandDFA expected var type after AMPERSAND"<<endl;t.print();}
+                if(t.kind != VARIABLE){cerr<<"AST::scandDFA expected var type after AMPERSAND"<<endl;t.print(symtab);}
                 
                 if(symtab->getTokenKind(t.value) == VARIABLE_TYPE_INT){t.kind = VARIABLE_TYPE_INT_AMPERSAND;}
                 else{cerr<<"AST::scanfDFA only supports int :("<<endl;}
@@ -353,7 +356,7 @@ public:
                         break;
                     default:
                         cerr<<"AST::condDFA Conditional operator incorrect(2)-";
-                        iterator->print();
+                        iterator->print(symtab);
                         cerr<<endl;
                 }
                 break;
@@ -449,7 +452,7 @@ public:
             currNodePtr = que.front();
             que.pop();
             // switch(currNodePtr->token.kind){
-            currNodePtr->token.print();
+            currNodePtr->token.print(symtab);
             // }
             cout<<"Node children size::"<<currNodePtr->children.size()<<endl;
 

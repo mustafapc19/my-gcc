@@ -1,3 +1,6 @@
+#ifndef ENUMS_H
+#define ENUMS_H
+
 enum TokenKind {
     ERROR,
     NONE,
@@ -34,3 +37,5 @@ enum TokenKind {
     // ADD,
     // SUBSTRACT
 };
+
+#endif

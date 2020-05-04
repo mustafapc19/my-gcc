@@ -9,7 +9,7 @@ Installation:
             In ubuntu: sudo apt install nasm
 
     Building:
-        g++ -g main.cpp -o my-gcc
+        ./build.sh
 
     Running:
         ./my-gcc [filename]

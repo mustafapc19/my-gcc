@@ -1,11 +1,8 @@
 #include<iostream>
 #include<fstream>
-#include "enums.cpp"
-#include "symtab.cpp"
-SymTab symtab;
-#include "tokenAndNode.cpp"
-#include "./varTab.cpp"
-#include "./litTab.cpp"
+#include "symtab.h"
+// #include "./varTab.cpp"
+// #include "./litTab.cpp"
 #include "./AST.cpp"
 #include "./lexer.cpp"
 #include "./inter.cpp"
@@ -18,6 +15,7 @@ int main(int argc, char** argv){
     string sourceFileName; 
     vector<string> finalCode;
     sourceFileName = ""; 
+    SymTab symtab;
     
     // for (int i = 0; i < argc; i++){
     sourceFileName = argv[1];

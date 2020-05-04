@@ -2,6 +2,7 @@
 #include<fstream>
 #include<iterator>
 #include<vector>
+#include"token.h"
 
 using namespace std;
 
@@ -200,7 +201,7 @@ public:
         for(int i= 0;i < this->tokenArray.size();i++){
             // cout<<"Type: ";
             // TokenKind tokenKind = (TokenKind)this->tokenArray[i].kind;
-            this->tokenArray[i].print();
+            this->tokenArray[i].print(symtab);
             cout<<endl;
             // cout<<" Value: "<<this->tokenArray[i].value<<endl;
         }

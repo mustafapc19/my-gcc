@@ -1,0 +1,1 @@
+g++ -g src/main.cpp -o my-gcc src/symtab.cpp src/token.cpp src/node.cpp src/varTab.cpp src/litTab.cpp
