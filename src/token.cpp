@@ -142,5 +142,4 @@ void Token::print(SymTab* symtab){
         default : 
             cerr<<"Token::Default "<<this->value<<" "<<this->kind<<" / ";
     }
-    // cerr<<"T-Kind-"<<(this->kind)<<"-Value-"<<(this->value)<<endl;
 }

@@ -20,13 +20,3 @@ public:
 };
 
 #endif
-
-// Token::Token(int kind,int value);
-
-// Token::Token(int kind);
-
-// Token::Token();
-
-// bool Token::operator==(Token tok);
-
-// void Token::print();

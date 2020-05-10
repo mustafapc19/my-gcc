@@ -1,8 +1,6 @@
 #include<iostream>
 #include<fstream>
 #include "symtab.h"
-// #include "./varTab.cpp"
-// #include "./litTab.cpp"
 #include "./AST.cpp"
 #include "./lexer.cpp"
 #include "./inter.cpp"
@@ -17,10 +15,7 @@ int main(int argc, char** argv){
     sourceFileName = ""; 
     SymTab symtab;
     
-    // for (int i = 0; i < argc; i++){
     sourceFileName = argv[1];
-    // } 
-    // cout<<sourceFileName;
   
     Lexer lexer(sourceFileName,&symtab);
     lexer.tokenList();
@@ -40,7 +35,6 @@ int main(int argc, char** argv){
         myfile<<finalCode[i]<<endl;
     }
     myfile.close();
-    // system("./my-gcc");
     system("nasm asm.asm -f elf64 -o my-prog.o");
     system("gcc -no-pie -g my-prog.o");
 
